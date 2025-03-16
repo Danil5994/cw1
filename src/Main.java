@@ -77,5 +77,4 @@ public class Main {
             System.out.println(employees[i].getFio());
         }
     }
-
 }

@@ -1,68 +1,80 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
-        Employee[] employees = new Employee[10];
-        employees[0] = new Employee("Иванов Иван Иванович", 1, 50000);
-        employees[1] = new Employee("Петров Петр Петрович", 2, 60000);
-        employees[2] = new Employee("Сидоров Сидор Сидорович", 3, 55000);
-        employees[3] = new Employee("Кузнецов Кузьма Кузьмич", 4, 70000);
-        employees[4] = new Employee("Алексеев Алексей Алексеевич", 5, 65000);
-        employees[5] = new Employee("Борисов Борис Борисович", 1, 52000);
-        employees[6] = new Employee("Морозов Мороз Морозович", 2, 62000);
-        employees[7] = new Employee("Снегирев Снегирь Снегирович", 3, 58000);
-        employees[8] = new Employee("Емельянов Емельян Емельяныч", 4, 75000);
-        employees[9] = new Employee("Тарасов Тарас Тарасович", 5, 68000);
+    private static Employee[] employees = new Employee[10];
+    private static int size = 0;
 
-        printEmployees(employees);
-        System.out.println("Сумма затрат на ЗП в месяц: " + sumSalary(employees));
-        System.out.println("Сотрудник с минимальной ЗП: " + findMinSalaryEmployee(employees));
-        System.out.println("Сотрудник с максимальной ЗП: " + findMaxSalaryEmployee(employees));
-        System.out.println("Среднее значение зарплат: " + averageSalary(employees));
-        printEmployeeFio(employees);
+    public static void main(String[] args) {
+        addEmployee("Иванов Иван Иванович", 1, 50000);
+        addEmployee("Петров Петр Петрович", 2, 60000);
+        addEmployee("Сидоров Сидор Сидорович", 3, 55000);
+        addEmployee("Кузнецов Кузьма Кузьмич", 4, 70000);
+        addEmployee("Алексеев Алексей Алексеевич", 5, 65000);
+        addEmployee("Борисов Борис Борисович", 1, 52000);
+        addEmployee("Морозов Мороз Морозович", 2, 62000);
+        addEmployee("Снегирев Снегирь Снегирович", 3, 58000);
+        addEmployee("Емельянов Емельян Емельяныч", 4, 75000);
+        addEmployee("Тарасов Тарас Тарасович", 5, 68000);
+
+        printEmployees();
+        System.out.println("Сумма затрат на ЗП: " + sumSalary());
+        System.out.println("Сотрудник с минимальной ЗП: " + findMinSalaryEmployee());
+        System.out.println("Сотрудник с максимальной ЗП: " + findMaxSalaryEmployee());
+        System.out.println("Средняя зарплата: " + averageSalary());
+        printEmployeeFio();
     }
 
-    public static void printEmployees(Employee[] employees) {
-        for (Employee employee : employees) {
-            System.out.println(employee);
+
+    private static void addEmployee(String fio, int department, double salary) {
+        if (size < employees.length) {
+            employees[size++] = new Employee(fio, department, salary);
         }
     }
 
-    public static double sumSalary(Employee[] employees) {
+
+    public static void printEmployees() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(employees[i]);
+        }
+    }
+
+    public static double sumSalary() {
         double sum = 0;
-        for (Employee employee : employees) {
-            sum += employee.getSalary();
+        for (int i = 0; i < size; i++) {
+            sum += employees[i].getSalary();
         }
         return sum;
     }
 
-    public static Employee findMinSalaryEmployee(Employee[] employees) {
-        Employee minSalaryEmployee = employees[0];
-        for (Employee employee : employees) {
-            if (employee.getSalary() < minSalaryEmployee.getSalary()) {
-                minSalaryEmployee = employee;
+    public static Employee findMinSalaryEmployee() {
+        if (size == 0) return null;
+
+        Employee min = employees[0];
+        for (int i = 1; i < size; i++) {
+            if (employees[i].getSalary() < min.getSalary()) {
+                min = employees[i];
             }
         }
-        return minSalaryEmployee;
+        return min;
     }
 
-    public static Employee findMaxSalaryEmployee(Employee[] employees) {
-        Employee maxSalaryEmployee = employees[0];
-        for (Employee employee : employees) {
-            if (employee.getSalary() > maxSalaryEmployee.getSalary()) {
-                maxSalaryEmployee = employee;
+    public static Employee findMaxSalaryEmployee() {
+        if (size == 0) return null;
+
+        Employee max = employees[0];
+        for (int i = 1; i < size; i++) {
+            if (employees[i].getSalary() > max.getSalary()) {
+                max = employees[i];
             }
         }
-        return maxSalaryEmployee;
+        return max;
     }
 
-    public static double averageSalary(Employee[] employees) {
-        return sumSalary(employees) / employees.length;
+    public static double averageSalary() {
+        return size == 0 ? 0 : sumSalary() / size;
     }
 
-    public static void printEmployeeFio(Employee[] employees) {
-        for (Employee employee : employees) {
-            System.out.println(employee.getFio());
+    public static void printEmployeeFio() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(employees[i].getFio());
         }
     }
 }
